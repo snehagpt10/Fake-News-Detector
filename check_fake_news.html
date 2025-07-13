@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake News Detection</title>
+</head>
+<body>
+    <h1>Fake News Detection with Saliency</h1>
+    <form method="post" action="{% url 'check_fake_news' %}">
+        {% csrf_token %}
+        <textarea name="article_text" rows="10" cols="80" placeholder="Enter your article here"></textarea>
+        <button type="submit">Check Authenticity</button>
+    </form>
+    {% if prediction %}
+        <h2>Prediction: {{ prediction }}</h2>
+        <h3>Saliency Visualization:</h3>
+        <div id="saliency">{{ saliency }}</div>
+    {% endif %}
+</body>
+</html>

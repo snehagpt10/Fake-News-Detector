@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Received</title>
+</head>
+<body>
+    <h2>Feedback Received</h2>
+    {% if feedback %}
+        <ul>
+            {% for item in feedback %}
+                <li>{{ item.article_text|slice:":50" }} - Label: {{ item.label }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No feedback available.</p>
+    {% endif %}
+    <a href="/">Go back to input page</a>
+</body>
+</html>

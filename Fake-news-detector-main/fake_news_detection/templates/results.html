@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fake News Detection Results</title>
+
+    <style>
+
+        body {
+
+            font-family: 'Georgia', serif;
+
+            margin: 0;
+
+            padding: 0;
+
+            background-color: #fdf6e3;
+
+            color: #333;
+
+            line-height: 1.8;
+
+            animation: fadeIn 1s ease-in;
+
+        }
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                opacity: 1;
+
+            }
+
+        }
+
+        header {
+
+            background: #2c3e50;
+
+            color: #ecf0f1;
+
+            padding: 1.5rem 0;
+
+            text-align: center;
+
+            font-size: 1.5rem;
+
+            font-weight: bold;
+
+            animation: slideDown 1s ease-out;
+
+        }
+
+        @keyframes slideDown {
+
+            from {
+
+                transform: translate(-100%);
+
+            }
+
+            to {
+
+                transform: translate(0);
+
+            }
+
+        }
+
+        .container {
+
+            max-width: 900px;
+
+            margin: 2rem auto;
+
+            background: #ffffff;
+
+            padding: 2.5rem;
+
+            border-radius: 12px;
+
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+            animation: zoomIn 0.8s ease-in-out;
+
+        }
+
+        @keyframes zoomIn {
+
+            from {
+
+                transform: scale(0.8);
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                transform: scale(1);
+
+                opacity: 1;
+
+            }
+
+        }
+
+        h1 {
+
+            color: #2c3e50;
+
+            font-size: 2rem;
+
+        }
+
+        h2 {
+
+            margin-top: 2.5rem;
+
+            color: #34495e;
+
+            font-size: 1.5rem;
+
+        }
+
+        ul {
+
+            list-style: none;
+
+            padding: 0;
+
+        }
+
+        li {
+
+            background: #ecf0f1;
+
+            margin: 0.5rem 0;
+
+            padding: 0.75rem;
+
+            border: 1px solid #bdc3c7;
+
+            border-radius: 8px;
+
+            font-size: 1rem;
+
+            transition: background-color 0.3s ease;
+
+        }
+
+        li:hover {
+
+            background-color: #dcdde1;
+
+        }
+
+        strong {
+
+            color: #2980b9;
+
+        }
+
+        form {
+
+            margin-top: 2.5rem;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 1.5rem;
+
+        }
+
+        label {
+
+            font-weight: bold;
+
+            font-size: 1.1rem;
+
+        }
+
+        select, button {
+
+            padding: 0.75rem;
+
+            font-size: 1rem;
+
+            border: 1px solid #bdc3c7;
+
+            border-radius: 6px;
+
+        }
+
+        button {
+
+            background: #2980b9;
+
+            color: #fff;
+
+            cursor: pointer;
+
+            transition: background 0.3s, transform 0.2s;
+
+        }
+
+        button:hover {
+
+            background: #1e6387;
+
+            transform: scale(1.05);
+
+        }
+
+        a {
+
+            color: #2980b9;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            display: inline-block;
+
+            margin-top: 1.5rem;
+
+            animation: fadeIn 2s ease-in;
+
+        }
+
+        a:hover {
+
+            text-decoration: underline;
+
+        }
+
+        img {
+
+            max-width: 100%;
+
+            height: auto;
+
+            margin-top: 1.5rem;
+
+            border: 1px solid #bdc3c7;
+
+            border-radius: 6px;
+
+            animation: fadeIn 1.5s ease-in;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Fake News Detection Results</h1>
+
+    </header>
+
+    <div class="container">
+
+        <h1>Prediction: {{ label }}</h1>
+
+        <p><strong>Article:</strong> {{ text }}</p>
+
+
+
+        <h2>Saliency Visualization</h2>
+
+        {% if token_saliency %}
+
+            <h3>Saliency Scores for Each Word:</h3>
+
+            <ul>
+
+                {% for token, score in token_saliency %}
+
+                    <li><strong>{{ token }}</strong>: {{ score }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% endif %}
+
+
+
+        <h2>Saliency Pie Chart</h2>
+
+        <img src="data:image/png;base64,{{ pie_chart_base64 }}" alt="Saliency Pie Chart">
+
+
+
+        <form action="{% url 'improve_prediction' %}" method="post">
+
+            {% csrf_token %}
+
+            <input type="hidden" name="article_text" value="{{ text }}">
+
+            <input type="hidden" name="current_label" value="{{ label }}">
+
+            <label for="correct_label">If incorrect, select the correct label:</label>
+
+            <select name="correct_label" id="correct_label" required>
+
+                <option value="" disabled selected>Select correct label</option>
+
+                <option value="Real">Real</option>
+
+                <option value="Fake">Fake</option>
+
+            </select>
+
+            <button type="submit">Improve</button>
+
+        </form>
+
+
+
+        <a href="/">Go back to input page</a>
+
+    </div>
+
+</body>
+
+</html>
