@@ -6,11 +6,13 @@ Input a news article and check if it's real or fake
 Uses mrm8488/bert-tiny-finetuned-fake-news-detection model from Hugging Face
 Visualizes saliency of words in the article
 Simple and interactive Django-based frontend
+
 🛠️ Technologies Used
 Django
 Transformers (Hugging Face)
 BERT-Tiny fine-tuned model
 HTML/CSS/JS
+
 🧪 How to Run
 # Clone the repository
 git clone https://github.com/your-username/fake-news-detector.git
